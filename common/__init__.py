@@ -14,15 +14,3 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Restlink.  If not, see <http://www.gnu.org/licenses/>.
-
-from setuptools import setup
-
-setup(
-    name='restlink',
-    packages=['restlink'],
-    include_package_data=True,
-    install_requires=[
-        'flask',
-        'flask-restful'
-    ],
-)

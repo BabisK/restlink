@@ -15,14 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with Restlink.  If not, see <http://www.gnu.org/licenses/>.
 
-from setuptools import setup
+from flask import Flask
+from flask_restful import Api
 
-setup(
-    name='restlink',
-    packages=['restlink'],
-    include_package_data=True,
-    install_requires=[
-        'flask',
-        'flask-restful'
-    ],
-)
+from common.setencoder import SetEncoder
+
+from resources.interfaces import InterfaceList, Interface
+
+app = Flask(__name__)
+app.json_encoder = SetEncoder
+
+api = Api(app)
+
+api.add_resource(InterfaceList, '/interfaces')
+api.add_resource(Interface, '/interfaces/<interface>')
+
+if __name__ == '__main__':
+    app.run()

@@ -15,14 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Restlink.  If not, see <http://www.gnu.org/licenses/>.
 
-from setuptools import setup
+from flask import json
 
-setup(
-    name='restlink',
-    packages=['restlink'],
-    include_package_data=True,
-    install_requires=[
-        'flask',
-        'flask-restful'
-    ],
-)
+class SetEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, set):
+            return list(obj)
+        elif obj is None:
+            return None
+        return json.JSONEncoder.default(self, obj)

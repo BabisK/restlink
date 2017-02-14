@@ -15,14 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with Restlink.  If not, see <http://www.gnu.org/licenses/>.
 
-from setuptools import setup
+from flask import jsonify
+from flask_restful import Resource
+from pyroute2 import IPDB
 
-setup(
-    name='restlink',
-    packages=['restlink'],
-    include_package_data=True,
-    install_requires=[
-        'flask',
-        'flask-restful'
-    ],
-)
+class InterfaceList(Resource):
+    def get(self):
+        with IPDB() as ip:
+            j = {k: v for k, v in ip.interfaces.items() if isinstance(k, str)}
+            return jsonify(j)
+
+class Interface(Resource):
+    def get(self, interface):
+        with IPDB() as ip:
+            j = ip.interfaces[interface]
+            return jsonify(j)
